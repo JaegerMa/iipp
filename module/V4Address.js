@@ -25,9 +25,13 @@ class V4Address extends Address
 
 		return super.covers(address);
 	}
-	toString()
+	toString({ appendCIDR = true } = {})
 	{
-		return this.bytes.map((byte) => byte.toString()).join('.') + '/' + this.subnetSize;
+		let str = this.bytes.map((byte) => byte.toString()).join('.');
+		if(appendCIDR)
+			str += '/' + this.subnetSize;
+
+		return str;
 	}
 
 

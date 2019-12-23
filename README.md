@@ -55,8 +55,8 @@ Base class representing an address or net.
 #### Methods
 - `covers(Address | string)`: `bool`
   Checks whether the current net covers/includes the given address
-- `toString()`: `string`
-  Prints the address (compressed, if possible) in CIDR format
+- `toString({ appendCIDR = true })`: `string`
+  Prints the address (compressed, if possible). Appends CIDR depending on `appendCIDR` paramete
 
 
 ### `V4Address` extends `Address`
@@ -73,8 +73,8 @@ IPv4 address or net.
 #### Methods
 - `covers(Address | string)`: bool
   Checks whether the current net covers/includes the given address
-- `toString()`: `string`
-  Prints the address in CIDR format
+- `toString({ appendCIDR = true })`: `string`
+  Prints the address. Appends CIDR depending on `appendCIDR` paramete
 - `static parse(string)`: `V4Address`
   Parses an IPv4 address or net. Returns `null` for invalid data.
 
@@ -95,10 +95,10 @@ IPv6 address or net.
 #### Methods
 - `covers(Address | string)`: bool
   Checks whether the current net covers/includes the given address
-- `toString()`: `string`
-  Prints the compressed address in CIDR format
-- `toUncompressedString()`: `string`
-  Prints the uncompressed address in CIDR format
+- `toString({ appendCIDR = true })`: `string`
+  Prints the compressed address. Appends CIDR depending on `appendCIDR` paramete
+- `toUncompressedString({ appendCIDR = true })`: `string`
+  Prints the uncompressed address. Appends CIDR depending on `appendCIDR` paramete
 - `static parse(string)`: `V6Address`
   Parses an IPv6 address or net. Returns `null` for invalid data.
 
@@ -139,6 +139,7 @@ let address = V6Address.parse('::1');
 */
 address.toUncompressedString(); // => 0000:0000:0000:0000:0000:0000:0000:0001/128
 address.toString(); // => ::1/128
+address.toString({ appendCIDR: false }); // => ::1
 
 
 let address = V6Address.parse('::1:0:0:0:0:0/100');

@@ -67,7 +67,7 @@ class V6Address extends Address
 
 		return super.covers(address);
 	}
-	toString()
+	toString({ appendCIDR = true } = {})
 	{
 		let biggestVoid = this.biggestVoid || { start: -1, size: 0 };
 		let blocks = this.blocks
@@ -80,11 +80,19 @@ class V6Address extends Address
 			blocks.push('');
 
 
-		return blocks.map((byte) => byte.toString(16)).join(':') + '/' + this.subnetSize;
+		let str = blocks.map((byte) => byte.toString(16)).join(':');
+		if(appendCIDR)
+			str += '/' + this.subnetSize;
+
+		return str;
 	}
-	toUncompressedString()
+	toUncompressedString({ appendCIDR = true } = {})
 	{
-		return this.blocks.map((byte) => byte.toString(16).padStart(4, '0')).join(':') + '/' + this.subnetSize;
+		let str = this.blocks.map((byte) => byte.toString(16).padStart(4, '0')).join(':');
+		if(appendCIDR)
+			str += '/' + this.subnetSize;
+
+		return str;
 	}
 
 
