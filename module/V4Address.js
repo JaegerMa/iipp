@@ -33,6 +33,10 @@ class V4Address extends Address
 
 		return str;
 	}
+	[Symbol.toPrimitive]()
+	{
+		return this.toString();
+	}
 
 
 	static parse(str)

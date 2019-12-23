@@ -94,6 +94,10 @@ class V6Address extends Address
 
 		return str;
 	}
+	[Symbol.toPrimitive]()
+	{
+		return this.toString();
+	}
 
 
 	static parse(str)
