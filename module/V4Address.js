@@ -38,6 +38,11 @@ class V4Address extends Address
 		return this.toString();
 	}
 
+	clone()
+	{
+		return new V4Address({ bytes: this.bytes.slice(), subnetSize: this.subnetSize });
+	}
+
 
 	static parse(str)
 	{

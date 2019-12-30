@@ -99,6 +99,11 @@ class V6Address extends Address
 		return this.toString();
 	}
 
+	clone()
+	{
+		return new V6Address({ bytes: this.bytes.slice(), subnetSize: this.subnetSize });
+	}
+
 
 	static parse(str)
 	{

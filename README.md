@@ -75,6 +75,8 @@ IPv4 address or net.
   Checks whether the current net covers/includes the given address
 - `toString({ appendCIDR = true })`: `string`
   Prints the address. Appends CIDR depending on `appendCIDR` paramete
+- `clone()`: `V4Address`
+  Creates clone of this address object
 - `static parse(string)`: `V4Address`
   Parses an IPv4 address or net. Returns `null` for invalid data.
 
@@ -99,6 +101,8 @@ IPv6 address or net.
   Prints the compressed address. Appends CIDR depending on `appendCIDR` paramete
 - `toUncompressedString({ appendCIDR = true })`: `string`
   Prints the uncompressed address. Appends CIDR depending on `appendCIDR` paramete
+- `clone()`: `V6Address`
+  Creates clone of this address object
 - `static parse(string)`: `V6Address`
   Parses an IPv6 address or net. Returns `null` for invalid data.
 
