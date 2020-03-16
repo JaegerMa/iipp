@@ -1,6 +1,6 @@
 {
   "name": "iipp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "IPv4 and v6 address parser",
   "main": "module.js",
   "repository": "https://github.com/JaegerMa/iipp",
