@@ -40,6 +40,23 @@ class Address
 
 		return true;
 	}
+
+	static parse(str, addressFamily = 0)
+	{
+		switch(addressFamily)
+		{
+			case 4:
+				return V4Address.parse(str);
+			case 6:
+				return V4Address.parse(str);
+		}
+
+		return V4Address.parse(str) || V6Address.parse(str);
+	}
 }
 
 module.exports = Address;
+
+
+const V4Address = require(__dirname + '/V4Address.js');
+const V6Address = require(__dirname + '/V6Address.js');
