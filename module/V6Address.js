@@ -67,8 +67,11 @@ class V6Address extends Address
 
 		return super.covers(address);
 	}
-	toString({ appendCIDR = true } = {})
+	toString({ appendCIDR = true, uncompressed = false } = {})
 	{
+		if(uncompressed)
+			return this.toUncompressedString(...arguments);
+
 		let biggestVoid = this.biggestVoid || { start: -1, size: 0 };
 		let blocks = this.blocks
 			.map((byte, idx) => idx === biggestVoid.start ? '' : byte)
