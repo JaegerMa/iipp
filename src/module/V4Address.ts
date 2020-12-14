@@ -1,31 +1,32 @@
 'use strict';
 
-const Address = require(__dirname + '/Address.js');
+import Address from './Address';
 
 class V4Address extends Address
 {
-	constructor({ bytes, subnetSize = 32 })
+	constructor({ bytes, subnetSize = 128 }: { bytes: number[], subnetSize?: number })
 	{
 		super({ bytes, subnetSize });
 	}
 
-	get addressType()
+	get addressType(): number
 	{
 		return 4;
 	}
-	get size()
+	get size(): number
 	{
 		return 32;
 	}
 
-	covers(address)
+	covers(address: V4Address | string): boolean
 	{
-		if(typeof (address) !== 'object')
-			address = V4Address.parse(address);
+		let addressObj = typeof (address) == 'object' ? address : V4Address.parse(address);
+		if(!addressObj)
+			return false;
 
 		return super.covers(address);
 	}
-	toString({ appendCIDR = true } = {})
+	toString({ appendCIDR = true }: { appendCIDR?: boolean } = {}): string
 	{
 		let str = this.bytes.map((byte) => byte.toString()).join('.');
 		if(appendCIDR)
@@ -44,7 +45,7 @@ class V4Address extends Address
 	}
 
 
-	static parse(str)
+	static parse(str: string): V4Address | undefined
 	{
 		if(!str || typeof (str) !== 'string')
 			return;
@@ -54,7 +55,7 @@ class V4Address extends Address
 			return;
 
 		let strParts = addressStr.split('.');
-		if(strParts.length !== 4 || strParts.some((strPart) => isNaN(strPart)))
+		if(strParts.length !== 4 || strParts.some((strPart) => Number.isNaN(Number(strPart))))
 			return;
 
 		let parts = strParts.map((strPart) => parseInt(strPart));
@@ -76,4 +77,4 @@ class V4Address extends Address
 }
 
 
-module.exports = V4Address;
+export default V4Address;

@@ -1,32 +1,36 @@
 'use strict';
 
-const Address = require(__dirname + '/Address.js');
+import Address from './Address';
 
 class V6Address extends Address
 {
-	constructor({ bytes, subnetSize = 128 })
+	constructor({ bytes, subnetSize = 128 }: { bytes: number[], subnetSize?: number })
 	{
 		super({ bytes, subnetSize });
 	}
 
-	get addressType()
+	get addressType(): number
 	{
 		return 6;
 	}
-	get size()
+	get size(): number
 	{
 		return 128;
 	}
-	get blocks()
+	get blocks(): number[]
 	{
-		return this.bytes.reduce((blocks, byte, idx) =>
+		let blocks: number[] = [];
+		for(let i = 0; i < this.bytes.length; ++i)
 		{
-			if(idx % 2 === 0)
-				blocks.push(byte << 8);
-			else
-				blocks[blocks.length - 1] |= byte;
-			return blocks;
-		}, []);
+			let byte = this.bytes[i];
+
+			if(i % 2 === 0)
+				blocks.push(0);
+			
+			blocks[blocks.length - 1] = (blocks[blocks.length - 1] << 8) | byte;
+		}
+		
+		return blocks;
 	}
 	get biggestVoid()
 	{
@@ -60,14 +64,15 @@ class V6Address extends Address
 	}
 
 
-	covers(address)
+	covers(address: V6Address | string): boolean
 	{
-		if(typeof (address) !== 'object')
-			address = V6Address.parse(address);
+		let addressObj = typeof (address) == 'object' ? address : V6Address.parse(address);
+		if(!addressObj)
+			return false;		
 
-		return super.covers(address);
+		return super.covers(addressObj);
 	}
-	toString({ appendCIDR = true, uncompressed = false } = {})
+	toString({ appendCIDR = true, uncompressed = false }: { appendCIDR?: boolean, uncompressed?: boolean } = {}): string
 	{
 		if(uncompressed)
 			return this.toUncompressedString(...arguments);
@@ -75,7 +80,7 @@ class V6Address extends Address
 		let biggestVoid = this.biggestVoid || { start: -1, size: 0 };
 		let blocks = this.blocks
 			.map((byte, idx) => idx === biggestVoid.start ? '' : byte)
-			.filter((byte, idx) => idx <= biggestVoid.start || idx >= biggestVoid.start + biggestVoid.size);
+			.filter((_, idx) => idx <= biggestVoid.start || idx >= biggestVoid.start + biggestVoid.size);
 
 		if(biggestVoid.start === 0)
 			blocks.splice(0, 0, '');
@@ -89,7 +94,7 @@ class V6Address extends Address
 
 		return str;
 	}
-	toUncompressedString({ appendCIDR = true } = {})
+	toUncompressedString({ appendCIDR = true }: { appendCIDR?: boolean; } = {}): string
 	{
 		let str = this.blocks.map((byte) => byte.toString(16).padStart(4, '0')).join(':');
 		if(appendCIDR)
@@ -97,18 +102,18 @@ class V6Address extends Address
 
 		return str;
 	}
-	[Symbol.toPrimitive]()
+	[Symbol.toPrimitive](): string
 	{
 		return this.toString();
 	}
 
-	clone()
+	clone(): V6Address
 	{
 		return new V6Address({ bytes: this.bytes.slice(), subnetSize: this.subnetSize });
 	}
 
 
-	static parse(str)
+	static parse(str: string): V6Address | undefined
 	{
 		if(!str || typeof (str) !== 'string')
 			return;
@@ -123,7 +128,7 @@ class V6Address extends Address
 			addressStr = addressStr + '0';
 
 		let strParts = addressStr.split(':').map((strPart) => strPart && '0x' + strPart);
-		if(strParts.some((strPart) => isNaN(strPart) && strPart !== ''))
+		if(strParts.some((strPart) => Number.isNaN(Number(strPart)) && strPart !== ''))
 			return;
 		if(strParts.filter((strPart) => strPart === '').length > 1)
 			return;
@@ -144,8 +149,8 @@ class V6Address extends Address
 		if(parts.length !== 8)
 			return;
 
-		let bytes = [].concat(...parts.map((part) => [part >> 8, part & 0xff]));
-
+		
+		let bytes = ([] as number[]).concat(...parts.map((part) => [part >> 8, part & 0xff]));
 
 		let subnetSize = 128;
 		if(subnetStr)
@@ -162,4 +167,4 @@ class V6Address extends Address
 }
 
 
-module.exports = V6Address;
+export default V6Address;
