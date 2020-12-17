@@ -4,7 +4,7 @@ import Address from './Address';
 
 class V4Address extends Address
 {
-	constructor({ bytes, subnetSize = 128 }: { bytes: number[], subnetSize?: number })
+	constructor({ bytes, subnetSize = 32 }: { bytes: number[], subnetSize?: number })
 	{
 		super({ bytes, subnetSize });
 	}
