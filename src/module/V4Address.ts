@@ -26,7 +26,7 @@ class V4Address extends Address
 
 		return super.covers(address);
 	}
-	toString({ appendCIDR = true }: { appendCIDR?: boolean | undefined } = {}): string
+	toString({ appendCIDR = undefined }: { appendCIDR?: boolean | undefined } = {}): string
 	{
 		let str = this.bytes.map((byte) => byte.toString()).join('.');
 		if(appendCIDR === true || (appendCIDR === undefined && this.subnetSize !== this.size))
