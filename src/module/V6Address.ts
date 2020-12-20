@@ -72,7 +72,7 @@ class V6Address extends Address
 
 		return super.covers(addressObj);
 	}
-	toString({ appendCIDR = true, uncompressed = false }: { appendCIDR?: boolean, uncompressed?: boolean } = {}): string
+	toString({ appendCIDR = true, uncompressed = false }: { appendCIDR?: boolean | undefined, uncompressed?: boolean } = {}): string
 	{
 		if(uncompressed)
 			return this.toUncompressedString(...arguments);
@@ -89,15 +89,15 @@ class V6Address extends Address
 
 
 		let str = blocks.map((byte) => byte.toString(16)).join(':');
-		if(appendCIDR)
+		if(appendCIDR === true || (appendCIDR === undefined && this.subnetSize !== this.size))
 			str += '/' + this.subnetSize;
 
 		return str;
 	}
-	toUncompressedString({ appendCIDR = true }: { appendCIDR?: boolean; } = {}): string
+	toUncompressedString({ appendCIDR = true }: { appendCIDR?: boolean | undefined; } = {}): string
 	{
 		let str = this.blocks.map((byte) => byte.toString(16).padStart(4, '0')).join(':');
-		if(appendCIDR)
+		if(appendCIDR === true || (appendCIDR === undefined && this.subnetSize !== this.size))
 			str += '/' + this.subnetSize;
 
 		return str;
