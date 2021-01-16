@@ -74,6 +74,21 @@ class V4Address extends Address
 
 		return address;
 	}
+	static fromBigInt(bigInt: bigint): V4Address | undefined
+	{
+		if(bigInt > 0xFFFFFFFFn || bigInt < 0n)
+			return undefined;
+
+
+		let bytes = Array(4);
+		for(let i = 3; i >= 0; --i)
+		{
+			bytes[i] = Number(bigInt & 0xFFn);
+			bigInt >>= 8n;
+		}
+
+		return new V4Address({ bytes });
+	}
 }
 
 

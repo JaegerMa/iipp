@@ -164,6 +164,21 @@ class V6Address extends Address
 
 		return address;
 	}
+	static fromBigInt(bigInt: bigint): V6Address | undefined
+	{
+		if(bigInt > 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFn || bigInt < 0n)
+			return undefined;
+
+
+		let bytes = Array(16);
+		for(let i = 15; i >= 0; --i)
+		{
+			bytes[i] = Number(bigInt & 0xFFn);
+			bigInt >>= 8n;
+		}
+
+		return new V6Address({ bytes });
+	}
 }
 
 

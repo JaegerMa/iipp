@@ -45,6 +45,14 @@ abstract class Address
 
 		return true;
 	}
+	toBigInt(): BigInt
+	{
+		let n = 0n;
+		for(let i = 0; i < this.bytes.length; ++i)
+			n = (n << 8n) | BigInt(this.bytes[i]);
+
+		return n;
+	}
 
 	static parse(str: string, addressFamily: number = 0): Address | undefined
 	{
@@ -57,6 +65,21 @@ abstract class Address
 		}
 
 		return V4Address.parse(str) || V6Address.parse(str);
+	}
+	static fromBigInt(bigInt: bigint, addressFamily: number = 0): Address | undefined
+	{
+		switch(addressFamily)
+		{
+			case 4:
+				return V4Address.fromBigInt(bigInt);
+			case 6:
+				return V6Address.fromBigInt(bigInt);
+		}
+
+		if(bigInt > 0xFFFFFFFFn)
+			return V6Address.fromBigInt(bigInt);
+
+		return V4Address.fromBigInt(bigInt);
 	}
 }
 
