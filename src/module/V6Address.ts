@@ -26,10 +26,10 @@ class V6Address extends Address
 
 			if(i % 2 === 0)
 				blocks.push(0);
-			
+
 			blocks[blocks.length - 1] = (blocks[blocks.length - 1] << 8) | byte;
 		}
-		
+
 		return blocks;
 	}
 	get biggestVoid()
@@ -68,7 +68,7 @@ class V6Address extends Address
 	{
 		let addressObj = typeof (address) == 'object' ? address : V6Address.parse(address);
 		if(!addressObj)
-			return false;		
+			return false;
 
 		return super.covers(addressObj);
 	}
@@ -149,7 +149,7 @@ class V6Address extends Address
 		if(parts.length !== 8)
 			return;
 
-		
+
 		let bytes = ([] as number[]).concat(...parts.map((part) => [part >> 8, part & 0xff]));
 
 		let subnetSize = 128;
