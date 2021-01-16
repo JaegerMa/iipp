@@ -164,7 +164,7 @@ class V6Address extends Address
 
 		return address;
 	}
-	static fromBigInt(bigInt: bigint): V6Address | undefined
+	static fromBigInt(bigInt: bigint, subnetSize?: number): V6Address | undefined
 	{
 		if(bigInt > 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFn || bigInt < 0n)
 			return undefined;
@@ -177,7 +177,7 @@ class V6Address extends Address
 			bigInt >>= 8n;
 		}
 
-		return new V6Address({ bytes });
+		return new V6Address({ bytes, subnetSize });
 	}
 }
 

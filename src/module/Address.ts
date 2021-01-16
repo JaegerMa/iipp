@@ -66,20 +66,20 @@ abstract class Address
 
 		return V4Address.parse(str) || V6Address.parse(str);
 	}
-	static fromBigInt(bigInt: bigint, addressFamily: number = 0): Address | undefined
+	static fromBigInt(bigInt: bigint, addressFamily: number = 0, subnetSize?: number): Address | undefined
 	{
 		switch(addressFamily)
 		{
 			case 4:
-				return V4Address.fromBigInt(bigInt);
+				return V4Address.fromBigInt(bigInt, subnetSize);
 			case 6:
-				return V6Address.fromBigInt(bigInt);
+				return V6Address.fromBigInt(bigInt, subnetSize);
 		}
 
-		if(bigInt > 0xFFFFFFFFn)
-			return V6Address.fromBigInt(bigInt);
+		if(bigInt > 0xFFFFFFFFn || (subnetSize && subnetSize > 32))
+			return V6Address.fromBigInt(bigInt, subnetSize);
 
-		return V4Address.fromBigInt(bigInt);
+		return V4Address.fromBigInt(bigInt, subnetSize);
 	}
 }
 

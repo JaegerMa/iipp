@@ -82,7 +82,7 @@ class V4Address extends Address
 
 		return address;
 	}
-	static fromBigInt(bigInt: bigint): V4Address | undefined
+	static fromBigInt(bigInt: bigint, subnetSize?: number): V4Address | undefined
 	{
 		if(bigInt > 0xFFFFFFFFn || bigInt < 0n)
 			return undefined;
@@ -95,9 +95,9 @@ class V4Address extends Address
 			bigInt >>= 8n;
 		}
 
-		return new V4Address({ bytes });
+		return new V4Address({ bytes, subnetSize });
 	}
-	static fromInt(int: number): V4Address | undefined
+	static fromInt(int: number, subnetSize?: number): V4Address | undefined
 	{
 		if(!Number.isInteger(int) || int > 0xFFFFFFFF || int< 0)
 			return undefined;
@@ -110,7 +110,7 @@ class V4Address extends Address
 			int >>= 8;
 		}
 
-		return new V4Address({ bytes });
+		return new V4Address({ bytes, subnetSize });
 	}
 }
 
