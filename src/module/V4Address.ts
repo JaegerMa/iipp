@@ -26,6 +26,14 @@ class V4Address extends Address
 
 		return super.covers(address);
 	}
+	toInt(): number
+	{
+		let n = 0;
+		for(let i = 0; i < this.bytes.length; ++i)
+			n = (n << 8) | this.bytes[i];
+
+		return n;
+	}
 	toString({ appendCIDR = undefined }: { appendCIDR?: boolean | undefined } = {}): string
 	{
 		let str = this.bytes.map((byte) => byte.toString()).join('.');
@@ -85,6 +93,21 @@ class V4Address extends Address
 		{
 			bytes[i] = Number(bigInt & 0xFFn);
 			bigInt >>= 8n;
+		}
+
+		return new V4Address({ bytes });
+	}
+	static fromInt(int: number): V4Address | undefined
+	{
+		if(!Number.isInteger(int) || int > 0xFFFFFFFF || int< 0)
+			return undefined;
+
+
+		let bytes = Array(4);
+		for(let i = 3; i >= 0; --i)
+		{
+			bytes[i] = Number(int & 0xFF);
+			int >>= 8;
 		}
 
 		return new V4Address({ bytes });
