@@ -53,7 +53,7 @@ abstract class Address
 			case 4:
 				return V4Address.parse(str);
 			case 6:
-				return V4Address.parse(str);
+				return V6Address.parse(str);
 		}
 
 		return V4Address.parse(str) || V6Address.parse(str);
