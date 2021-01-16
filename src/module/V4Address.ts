@@ -6,7 +6,7 @@ class V4Address extends Address
 {
 	constructor({ bytes, subnetSize = 32 }: { bytes: number[], subnetSize?: number })
 	{
-		super({ bytes, subnetSize });
+		super({ bytes, subnetSize: subnetSize ?? 32 });
 	}
 
 	get addressType(): number
