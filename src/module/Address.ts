@@ -45,7 +45,7 @@ abstract class Address
 
 		return true;
 	}
-	toBigInt(): BigInt
+	toBigInt(): bigint
 	{
 		let n = 0n;
 		for(let i = 0; i < this.bytes.length; ++i)
