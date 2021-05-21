@@ -54,6 +54,10 @@ abstract class Address
 		return n;
 	}
 
+	abstract toString(): string;
+	abstract toString({ appendCIDR, uncompressed }: { appendCIDR?: boolean | undefined, uncompressed?: boolean; }): string;
+
+
 	static parse(str: string, addressFamily: number = 0): Address | undefined
 	{
 		switch(addressFamily)
