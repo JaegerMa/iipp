@@ -55,8 +55,10 @@ Base class representing an address or net.
 #### Methods
 - `covers(Address | string)`: `bool`
   Checks whether the current net covers/includes the given address
-- `toString({ appendCIDR = true })`: `string`
-  Prints the address (compressed, if possible). Appends CIDR depending on `appendCIDR` paramete
+- `toString({ appendCIDR = undefined, uncompressed = false })`: `string`
+  Formats the address to a string
+    - appendCIDR: When appendCIDR is undefined, the CIDR is appended only when the address object defines a subnet
+	- uncompressed: The uncompressed parameter takes effect only on V6Address objects
 
 
 ### `V4Address` extends `Address`
@@ -73,8 +75,9 @@ IPv4 address or net.
 #### Methods
 - `covers(Address | string)`: bool
   Checks whether the current net covers/includes the given address
-- `toString({ appendCIDR = true })`: `string`
-  Prints the address. Appends CIDR depending on `appendCIDR` paramete
+- `toString({ appendCIDR = undefined })`: `string`
+  Formats the address to a string
+    - appendCIDR: When appendCIDR is undefined, the CIDR is appended only when the address object defines a subnet
 - `clone()`: `V4Address`
   Creates clone of this address object
 - `static parse(string)`: `V4Address`
@@ -97,10 +100,12 @@ IPv6 address or net.
 #### Methods
 - `covers(Address | string)`: bool
   Checks whether the current net covers/includes the given address
-- `toString({ appendCIDR = true })`: `string`
-  Prints the compressed address. Appends CIDR depending on `appendCIDR` paramete
-- `toUncompressedString({ appendCIDR = true })`: `string`
-  Prints the uncompressed address. Appends CIDR depending on `appendCIDR` paramete
+- `toString({ appendCIDR = true, uncompressed = false })`: `string`
+  Formats the address to a string
+    - appendCIDR: When appendCIDR is undefined, the CIDR is appended only when the address object defines a subnet
+- `toUncompressedString({ appendCIDR = undefined })`: `string`
+  Formats the address to a string
+    - appendCIDR: When appendCIDR is undefined, the CIDR is appended only when the address object defines a subnet
 - `clone()`: `V6Address`
   Creates clone of this address object
 - `static parse(string)`: `V6Address`
