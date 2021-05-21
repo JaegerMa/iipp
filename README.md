@@ -147,8 +147,8 @@ let address = V6Address.parse('::1');
 	- subnetSize: 128
 */
 address.toUncompressedString(); // => 0000:0000:0000:0000:0000:0000:0000:0001/128
-address.toString(); // => ::1/128
-address.toString({ appendCIDR: false }); // => ::1
+address.toString(); // => ::1
+address.toString({ appendCIDR: true }); // => ::1/128
 
 
 let address = V6Address.parse('::1:0:0:0:0:0/100');
@@ -160,3 +160,4 @@ let address = V6Address.parse('::1:0:0:0:0:0/100');
 */
 address.toUncompressedString(); // => 0000:0000:0001:0000:0000:0000:0000:0000/100
 address.toString(); // => 0:0:1::/100
+address.toString({ appendCIDR: false }); // => 0:0:1::
